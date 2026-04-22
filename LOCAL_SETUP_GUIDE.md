@@ -34,6 +34,8 @@ pnpm install
 pnpm infra:up
 ```
 
+This starts MySQL and Redis only. The Nest API is not part of `docker-compose.yml` and must be started separately.
+
 3. Apply database migrations:
 
 ```bash
@@ -47,6 +49,12 @@ pnpm run dev
 ```
 
 Swagger UI will then be available at:
+
+```text
+http://localhost:<PORT>/api/docs
+```
+
+With the current checked-in local `.env`, that resolves to:
 
 ```text
 http://localhost:3003/api/docs
@@ -67,10 +75,10 @@ pnpm infra:down
 
 ## Working Local Defaults
 
-If you use the included Docker Compose file, these values work locally:
+If you use the included Docker Compose file, the database and Redis values below work locally, and `PORT` can be any free local port:
 
 ```env
-PORT=3000
+PORT=3003
 DATABASE_URL="mysql://user:password@localhost:3306/mpesa_db"
 REDIS_URL=redis://localhost:6379
 MPESA_ENV=SANDBOX
@@ -86,7 +94,8 @@ Everything else depends on which M-Pesa APIs you want to exercise.
 
 - Purpose: HTTP port for the Nest app.
 - Where it comes from: local choice.
-- Local value: `3000` or another free port such as `3001`.
+- Local value in this workspace: `3003`.
+- Other valid local values: any free port such as `3000` or `3001`.
 
 `DATABASE_URL`
 
