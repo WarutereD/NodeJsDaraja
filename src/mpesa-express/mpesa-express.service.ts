@@ -7,8 +7,10 @@ import { PrismaService } from 'src/services/prisma.service';
 import { Redis } from 'ioredis';
 import axios, { AxiosError } from 'axios';
 import { Status } from '@prisma/client';
+import { MPESA_URLS } from 'src/core/utils/constants';
 
 interface MpesaConfig {
+    baseUrl: string;
     shortcode: string;
     passkey: string;
     callbackUrl: string;
@@ -49,10 +51,12 @@ export class MpesaExpressService {
         private readonly redisService: RedisService,
         private readonly prisma: PrismaService,
     ) {
+        const environment = this.configService.get<string>('MPESA_ENV') || 'SANDBOX';
         this.mpesaConfig = {
-            shortcode: '174379',
+            baseUrl: MPESA_URLS[environment].STK_PUSH,
+            shortcode: this.configService.get<string>('STK_SHORTCODE') || '174379',
             passkey: this.configService.get<string>('PASS_KEY'),
-            callbackUrl: 'https://goose-merry-mollusk.ngrok-free.app/api/mpesa/callback',
+            callbackUrl: this.configService.get<string>('STK_CALLBACK_URL') || 'http://localhost:3000/api/mpesa/callback',
             transactionType: 'CustomerPayBillOnline',
         };
         this.redis = this.redisService.getOrThrow();
@@ -219,7 +223,7 @@ export class MpesaExpressService {
     }
 
     private async sendSTKPushRequest(requestBody: STKPushRequest, token: string) {
-        return axios.post('https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest', requestBody, {
+        return axios.post(this.mpesaConfig.baseUrl, requestBody, {
             headers: {
                 Authorization: `Bearer ${token}`,
                 'Content-Type': 'application/json',

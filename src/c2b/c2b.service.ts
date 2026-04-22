@@ -4,6 +4,7 @@ import axios, { AxiosError } from 'axios';
 import { AuthService } from 'src/services/auth.service';
 import { PrismaService } from 'src/services/prisma.service';
 import { MPESA_URLS, TRANSACTION_TYPES } from 'src/core/utils/constants';
+import { MpesaValidators } from 'src/core/utils/validators.util';
 import { RegisterUrlDto } from './dto/register-url.dto';
 import { SimulateC2BDto } from './dto/simulate-c2b.dto';
 import { Status } from '@prisma/client';
@@ -163,6 +164,7 @@ export class C2BService {
         const validations = [
             {
                 condition: !MpesaValidators.isValidPhoneNumber(dto.msisdn),
+                message: 'Invalid phone number format. Use 2547XXXXXXXX',
             },
             {
                 condition: dto.amount <= 0,

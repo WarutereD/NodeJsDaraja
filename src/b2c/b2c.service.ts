@@ -6,6 +6,7 @@ import { PrismaService } from 'src/services/prisma.service';
 import { SecurityCredentialService } from 'src/core/services/security-credential.service';
 import { CallbackHandlerService } from 'src/core/services/callback-handler.service';
 import { MPESA_URLS, TRANSACTION_TYPES } from 'src/core/utils/constants';
+import { MpesaValidators } from 'src/core/utils/validators.util';
 import { PaymentRequestDto } from './dto/payment-request.dto';
 import { Status } from '@prisma/client';
 

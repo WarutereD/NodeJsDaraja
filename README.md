@@ -2,6 +2,8 @@
 
 A comprehensive NestJS implementation of Safaricom's Daraja API, providing complete M-Pesa payment integration for Kenya. This library supports all major Daraja API services including payments, transfers, queries, and billing.
 
+For a current local bootstrap and `.env` credential guide, see `LOCAL_SETUP_GUIDE.md`.
+
 ## 🚀 Features
 
 This implementation provides a complete suite of M-Pesa services:
@@ -155,6 +157,14 @@ The server will be running on `http://localhost:3000`
 
 ```
 http://localhost:3000/api
+```
+
+### Swagger UI
+
+When the server is running, interactive API docs are available at:
+
+``` 
+http://localhost:3000/api/docs
 ```
 
 ---
